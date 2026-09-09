@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fce4ec, #f3e8ff);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .card {
+            width: 90%;
+            max-width: 480px;
+            background: white;
+            border-radius: 24px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        h1 { text-align: center; color: #d81b60; }
+        form { display: flex; flex-direction: column; gap: 12px; }
+        input, button {
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #f0d8e7;
+            font-size: 16px;
+        }
+        button {
+            background: #d81b60;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        p { text-align: center; }
+        a { color: #d81b60; text-decoration: none; font-weight: bold; }
+        @media (max-width: 600px) {
+            .card { width: 100%; padding: 26px 20px; border-radius: 18px; }
+            h1 { font-size: 30px; }
+            input, button { width: 100%; min-height: 48px; }
+            p { line-height: 1.5; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Iniciar sesión</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Entrar</button>
+        </form>
+        <p>¿No tienes cuenta? <a href="{% url 'registro' %}">Regístrate</a></p>
+    </div>
+</body>
+</html>

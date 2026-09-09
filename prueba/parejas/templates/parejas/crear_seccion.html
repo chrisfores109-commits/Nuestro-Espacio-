@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear sección</title>
+</head>
+<body>
+    <h1>Crear una sección</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>Nombre:</label>
+        <input type="text" name="nombre" required><br><br>
+        <label>Descripción:</label>
+        <textarea name="descripcion"></textarea><br><br>
+        <button type="submit">Guardar</button>
+    </form>
+    <p><a href="{% url 'dashboard' %}">Volver</a></p>
+</body>
+</html>

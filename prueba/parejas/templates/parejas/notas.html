@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Notas</title>
+</head>
+<body>
+    <h1>Notas</h1>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="texto" placeholder="Escribe una nota..." required></textarea><br><br>
+        <button type="submit">Enviar nota</button>
+    </form>
+
+    <h2>Historial</h2>
+    {% for nota in notas %}
+        <p><strong>{{ nota.autor.username }}</strong> - {{ nota.fecha }}<br>{{ nota.texto }}</p>
+    {% empty %}
+        <p>No hay notas todavía.</p>
+    {% endfor %}
+
+    <p><a href="{% url 'dashboard' %}">Volver</a></p>
+</body>
+</html>

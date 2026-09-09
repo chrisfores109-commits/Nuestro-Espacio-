@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Subir archivo</title>
+</head>
+<body>
+    <h1>Subir foto o video</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Sección:</label>
+        <select name="seccion" required>
+            {% for seccion in secciones %}
+                <option value="{{ seccion.id }}">{{ seccion.nombre }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label>Tipo:</label>
+        <select name="tipo">
+            <option value="foto">Foto</option>
+            <option value="video">Video</option>
+        </select><br><br>
+
+        <label>Archivo:</label>
+        <input type="file" name="archivo" required><br><br>
+        <button type="submit">Subir</button>
+    </form>
+    <p><a href="{% url 'dashboard' %}">Volver</a></p>
+</body>
+</html>

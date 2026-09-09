@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #fff0f5, #f3e8ff);
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+        .box {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+        a {
+            text-decoration: none;
+            color: #d81b60;
+            font-weight: bold;
+        }
+        .card {
+            background: #fff6fb;
+            border: 1px solid #f8d2e5;
+            border-radius: 15px;
+            padding: 16px;
+        }
+        h1, h3 { color: #d81b60; }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        .btn {
+            background: #d81b60;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 999px;
+            display: inline-block;
+            border: 0;
+            font: inherit;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        @media (max-width: 600px) {
+            body { padding: 16px 12px; }
+            .topbar { align-items: flex-start; gap: 14px; }
+            h1 { font-size: 28px; margin: 0; }
+            .topbar form, .topbar .btn { width: 100%; }
+            .topbar .btn { padding: 12px 14px; }
+            .box, .card { padding: 16px; border-radius: 12px; }
+            .box p { line-height: 1.6; }
+            .grid { grid-template-columns: 1fr; gap: 12px; }
+            .card p { overflow-wrap: anywhere; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <h1>Dashboard de la pareja</h1>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button class="btn" type="submit">Cerrar sesión</button>
+            </form>
+        </div>
+
+        {% if pareja %}
+            <div class="box">
+                <p><strong>Código:</strong> {{ pareja.codigo }}</p>
+                <p><strong>Clave:</strong> {{ pareja.clave_union }}</p>
+            </div>
+        {% else %}
+            <div class="box">
+                <p>Aún no perteneces a ninguna pareja.</p>
+                <p><a href="{% url 'crear_pareja' %}">Crear pareja</a> | <a href="{% url 'unirse_pareja' %}">Unirme con código</a></p>
+            </div>
+        {% endif %}
+
+        <div class="grid">
+            <div class="card">
+                <h3>Secciones</h3>
+                <p><a href="{% url 'crear_seccion' %}">+ Crear sección</a></p>
+                {% for seccion in secciones %}
+                    <p>- {{ seccion.nombre }}</p>
+                {% empty %}
+                    <p>No hay secciones todavía.</p>
+                {% endfor %}
+            </div>
+
+            <div class="card">
+                <h3>Notas</h3>
+                <p><a href="{% url 'notas' %}">Ver notas</a></p>
+                {% for nota in notas %}
+                    <p>{{ nota.autor.username }}: {{ nota.texto|truncatechars:80 }}</p>
+                {% empty %}
+                    <p>No hay notas todavía.</p>
+                {% endfor %}
+            </div>
+
+            <div class="card">
+                <h3>Archivos</h3>
+                <p><a href="{% url 'subir_archivo' %}">Subir archivo</a> | <a href="{% url 'galeria' %}">Galería</a></p>
+                {% for archivo in archivos %}
+                    <p>{{ archivo.tipo }} - {{ archivo.seccion.nombre }}</p>
+                {% empty %}
+                    <p>No hay archivos.</p>
+                {% endfor %}
+                <p><a href="{% url 'galeria' %}">Ver favoritos</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

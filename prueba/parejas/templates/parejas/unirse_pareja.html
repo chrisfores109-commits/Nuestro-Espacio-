@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Unirse a una pareja</title>
+</head>
+<body>
+    <h1>Unirme con código</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label>Código:</label>
+        <input type="text" name="codigo" required><br><br>
+        <label>Clave de unión:</label>
+        <input type="text" name="clave_union" required><br><br>
+        <button type="submit">Unirme</button>
+    </form>
+    <p><a href="{% url 'dashboard' %}">Volver</a></p>
+</body>
+</html>

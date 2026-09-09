@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Galería</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #fff5fb; padding: 30px; }
+        .container { max-width: 1000px; margin: auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 18px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        img, video { width: 100%; border-radius: 12px; margin-top: 10px; }
+        .favorito { color: #d81b60; font-weight: bold; }
+        a { color: #d81b60; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Galería compartida</h1>
+
+        <p><a href="{% url 'dashboard' %}">← Volver al dashboard</a></p>
+
+        <h2>Favoritos</h2>
+        {% if favoritos %}
+            {% for archivo in favoritos %}
+                <p class="favorito">⭐ {{ archivo.usuario.username }} · {{ archivo.seccion.nombre }}</p>
+            {% endfor %}
+        {% else %}
+            <p>No hay favoritos todavía.</p>
+        {% endif %}
+
+        <div class="grid">
+            {% for archivo in archivos %}
+                <div class="card">
+                    <p><strong>{{ archivo.usuario.username }}</strong> · {{ archivo.seccion.nombre }} · {{ archivo.tipo }}</p>
+                    {% if archivo.tipo == 'video' %}
+                        <video controls>
+                            <source src="{{ archivo.archivo.url }}" type="video/mp4">
+                        </video>
+                    {% else %}
+                        <img src="{{ archivo.archivo.url }}" alt="foto">
+                    {% endif %}
+                    <p>
+                        {% if archivo.favorito %}
+                            ⭐ Favorito
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'toggle_favorito' archivo.id %}">
+                        {% if archivo.favorito %}Quitar favorito{% else %}Marcar favorito{% endif %}
+                    </a>
+                </div>
+            {% empty %}
+                <p>No hay archivos todavía.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
